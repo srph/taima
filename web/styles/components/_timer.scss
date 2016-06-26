@@ -1,0 +1,47 @@
+.timer {
+  position: relative;
+  // Ad-hoc margin for timer-actions.
+  margin-bottom: 50px;
+
+  .timer__inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 150px;;
+  }
+
+  .timer__unit {
+    width: 75px;
+  }
+
+  .timer__unit-input {
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: center;
+    color: $color-black;
+    font-size: 32px;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+  }
+
+  .timer__unit-input:focus {
+    cursor: default;
+  }
+
+  .timer__unit-sub {
+    color: $color-gray;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: normal;
+    text-align: center;
+  }
+}

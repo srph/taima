@@ -1,0 +1,46 @@
+/**
+ * @param $border Border color
+ * @param $text Text color
+ */
+@mixin btn-variant($color) {
+  color: $color;
+  border-color: $color;
+
+  &:hover {
+    color: lighten($color, 10%);
+    border-color: lighten($color, 10%);
+  }
+}
+
+.btn {
+  display: inline-block;
+  height: $form-size;
+  line-height: $form-size - 1px;
+  padding: 0 10px;
+  font-size: $font-size;
+  color: $color-gray;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: $border-radius;
+  transition: 0.25s all ease;
+  // @NOTE: For some reason, Electron doesn't set
+  // cursor to pointer for buttons by default.
+  cursor: pointer;
+  outline: 0;
+
+  &, &:hover {
+    text-decoration: none;
+  }
+
+  &.btn--default {
+    @include btn-variant($color-gray);
+  }
+
+  &.btn--success {
+    @include btn-variant($color-green);
+  }
+
+  &.btn--danger {
+    @include btn-variant($color-red);
+  }
+}

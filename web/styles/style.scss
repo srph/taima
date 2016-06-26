@@ -1,5 +1,8 @@
 @import "vendor/normalize";
 @import "variables";
 @import "scaffold";
+@import "components/btn";
 @import "components/plain-btn";
-@import "components/range-slider";
+@import "components/timer";
+@import "components/timer-progress-bar";
+@import "components/timer-actions";

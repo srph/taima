@@ -3,4 +3,7 @@
   padding: 0;
   background: none;
   border: 0;
+  // @NOTE: For some reason, Electron doesn't set
+  // cursor to pointer for buttons by default.
+  cursor: pointer;
 }

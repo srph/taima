@@ -1,0 +1,22 @@
+.timer-progress-bar {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 270px;
+  height: 270px;
+
+  .timer-progress-bar__bg,
+  .timer-progress-bar__bar {
+    stroke-dashoffset: 0;
+    stroke-width: 10px;
+    transition: stroke-dashoffset 0.25s ease;
+  }
+
+  .timer-progress-bar__bg {
+    stroke: $color-gray;
+  }
+
+  .timer-progress-bar__bar {
+    stroke: $color-green;
+  }
+}

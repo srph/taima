@@ -1,0 +1,11 @@
+.timer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+
+  .timer-actions__action:not(:last-child) {
+    margin-right: 5px;
+  }
+}
