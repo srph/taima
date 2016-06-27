@@ -33,7 +33,8 @@
     cursor: pointer;
   }
 
-  .timer__unit-input:focus {
+  .timer__unit-input:focus,
+  .timer__unit-input:disabled {
     cursor: default;
   }
 

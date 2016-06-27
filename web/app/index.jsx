@@ -38,12 +38,12 @@ export default class App extends Component {
 
             <div className="timer__inner">
               <div className="timer__unit">
-                <input className="timer__unit-input" type="text" placeholder="0" value={hours} onChange={(evt) => this.setState({ hours: evt.target.value })} />
+                <input className="timer__unit-input" type="text" placeholder="0" value={hours} onChange={(evt) => this.setState({ hours: evt.target.value })} disabled={started} />
                 <h5 className="timer__unit-sub">Hours</h5>
               </div>
 
               <div className="timer__unit">
-                <input className="timer__unit-input" type="text" placeholder="00" value={minutes} onChange={(evt) => this.setState({ minutes: evt.target.value })} />
+                <input className="timer__unit-input" type="text" placeholder="00" value={minutes} onChange={(evt) => this.setState({ minutes: evt.target.value })} disabled={started} />
                 <h5 className="timer__unit-sub">Minutes</h5>
               </div>
             </div>
