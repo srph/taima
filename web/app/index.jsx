@@ -8,24 +8,24 @@ export default class App extends Component {
     paused: false,
     hours: 0,
     minutes: 0,
-    start: 0,
-    end: 0,
-    elapsed: 0,
+    total: 0,
     remaining: 0
   };
 
   timer = null;
 
   render() {
-    const {started, paused, remaining, elapsed, start, end, ...state} = this.state;
-    const hours = started ? parseInt(remaining / (60 * 60 * 1000)) : state.hours;
-    const minutes = started ? parseInt(remaining / (60 * 1000) % 60) : state.minutes;
-    // The calculation for the circular progress bar percentage
-    // Raw Percentage: (elapsed time / time range) * 100
-    const range = end - start;
-    const value = Math.round((elapsed / range) * 100);
-    // 816.81 [c] = Math.PI * (130 [r] * 2)
-    const percentage = started ? 816.81 - (((100 - value) / 100) *  816.81) : 816.81;
+    const {started, paused, total, remaining, ...state} = this.state;
+    const hours = started ? parseInt(remaining / 3600) : state.hours;
+    const minutes = started ? parseInt(remaining % (60 * 60) / 60) : state.minutes;
+    // Progress Bar Pecentage
+    const elapsed = total - remaining;
+    const percentage = started
+      // 816.81 [c] = Math.PI * (130 [r] * 2)
+      ? 816.81 - (((100 - ((elapsed / total) * 100)) / 100) * 816.81)
+      : 816.81;
+
+    console.log(hours, minutes, percentage);
 
     return (
       <div className="container">
@@ -77,35 +77,29 @@ export default class App extends Component {
   }
 
   handleStart = () => {
-    const {hours, minutes} = this.state;
-    const end = moment().add(hours, 'hours').add(minutes, 'minutes');
+    const total = moment()
+      .add(this.state.hours, 'hours')
+      .add(this.state.minutes, 'minutes')
+      .diff(moment(), 'seconds');
 
     this.setState({
       started: true,
-      start: moment().valueOf(),
-      end: end.valueOf(),
-      elapsed: 0,
-      remaining: end.diff(moment())
+      total,
+      remaining: total
     }, () => {
       this.timer = setInterval(() => {
-        const now = moment();
-        const remaining = moment(this.state.end).diff(now);
-        const elapsed = now.diff(moment(this.state.start));
+        const remaining = this.state.remaining - 1;
 
         if ( remaining <= 0 ) {
+          clearInterval(this.timer);
+
           this.setState({
             started: false,
-            end: 0,
-            elapsed: 0,
+            total: 0,
             remaining: 0
           });
-
-          clearInterval(this.timer);
         } else {
-          this.setState({
-            remaining,
-            elapsed
-          });
+          this.setState({ remaining });
         }
       }, 1000);
     });
