@@ -16,8 +16,8 @@ export default class App extends Component {
 
   render() {
     const {started, paused, total, remaining, ...state} = this.state;
-    const hours = started ? parseInt(remaining / 3600) : state.hours;
-    const minutes = started ? parseInt(remaining % (60 * 60) / 60) : state.minutes;
+    const hours = started ? padStart(parseInt(remaining / 3600), 2, '0') : state.hours;
+    const minutes = started ? padStart(parseInt(remaining % (60 * 60) / 60), 2, '0') : state.minutes;
     // Progress Bar Pecentage
     const elapsed = total - remaining;
     const percentage = started
