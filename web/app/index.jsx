@@ -64,8 +64,8 @@ export default class App extends Component {
               {started ?
                 <div className="timer-actions__action">
                   {paused
-                    ? <button className="btn btn--default">Pause</button>
-                    : <button className="btn btn--default">Resume</button>}
+                    ? <button className="btn btn--default" onClick={this.handleResume}>Resume</button>
+                    : <button className="btn btn--default" onClick={this.handlePause}>Pause</button>}
                 </div> : null}
 
               {started ?
@@ -81,6 +81,26 @@ export default class App extends Component {
     );
   }
 
+  handleTick = () => {
+    this.timer = setInterval(() => {
+      const remaining = this.state.remaining - 1;
+
+      if ( remaining <= 0 ) {
+        this.refs.sound.play();
+
+        clearInterval(this.timer);
+
+        this.setState({
+          started: false,
+          total: 0,
+          remaining: 0
+        });
+      } else {
+        this.setState({ remaining });
+      }
+    }, 1000);
+  }
+
   handleStart = () => {
     const total = moment()
       .add(this.state.hours, 'hours')
@@ -91,25 +111,17 @@ export default class App extends Component {
       started: true,
       total,
       remaining: total
-    }, () => {
-      this.timer = setInterval(() => {
-        const remaining = this.state.remaining - 1;
+    }, this.handleTick);
+  }
 
-        if ( remaining <= 0 ) {
-          this.refs.sound.play();
+  handlePause = () => {
+    this.setState({ paused: true });
+    clearInterval(this.timer);
+  }
 
-          clearInterval(this.timer);
-
-          this.setState({
-            started: false,
-            total: 0,
-            remaining: 0
-          });
-        } else {
-          this.setState({ remaining });
-        }
-      }, 1000);
-    });
+  handleResume = () => {
+    this.setState({ paused: false });
+    this.handleTick();
   }
 
   handleStop = () => {
