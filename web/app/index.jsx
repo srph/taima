@@ -88,6 +88,8 @@ export default class App extends Component {
       if ( remaining <= 0 ) {
         this.refs.sound.play();
 
+        new Notification('Time\'s Up!', { body: 'Your timer is up.' });
+
         clearInterval(this.timer);
 
         this.setState({
@@ -96,6 +98,7 @@ export default class App extends Component {
           remaining: 0
         });
       } else {
+
         this.setState({ remaining });
       }
     }, 1000);
