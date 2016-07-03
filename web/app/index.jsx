@@ -25,51 +25,56 @@ export default class App extends Component {
       ? 816.81 - (((100 - ((elapsed / total) * 100)) / 100) * 816.81)
       : 816.81;
 
-    console.log(hours, minutes, percentage);
-
     return (
-      <div className="container">
-        <div>
-          <div className="timer">
-            <svg className="timer-progress-bar" viewPort="0 0 135 135" version="1.1" xmlns="http://www.w3.org/2000/svg">
-              <circle className="timer-progress-bar__bg" r="130" cx="135" cy="135" fill="transparent" strokeDasharray="816.81" strokeDashoffset="0"></circle>
-              <circle className="timer-progress-bar__bar" r="130" cx="135" cy="135" fill="transparent" strokeDasharray="816.81" strokeDashoffset="0" style={{ strokeDashoffset: percentage }}></circle>
-            </svg>
+      <div>
+        <audio ref="sound" style={{ display: 'none' }} autobuffer loop>
+          <source src="http://e.ggtimer.com/styles/beepbeep.mp3" type="audio/mpeg" />
+          <source src="http://e.ggtimer.com/styles/beepbeep.ogg" type="audio/ogg" />
+        </audio>
 
-            <div className="timer__inner">
-              <div className="timer__unit">
-                <input className="timer__unit-input" type="text" placeholder="0" value={hours} onChange={(evt) => this.setState({ hours: evt.target.value })} disabled={started} />
-                <h5 className="timer__unit-sub">Hours</h5>
-              </div>
+        <div className="container">
+          <div>
+            <div className="timer">
+              <svg className="timer-progress-bar" viewPort="0 0 135 135" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <circle className="timer-progress-bar__bg" r="130" cx="135" cy="135" fill="transparent" strokeDasharray="816.81" strokeDashoffset="0"></circle>
+                <circle className="timer-progress-bar__bar" r="130" cx="135" cy="135" fill="transparent" strokeDasharray="816.81" strokeDashoffset="0" style={{ strokeDashoffset: percentage }}></circle>
+              </svg>
 
-              <div className="timer__unit">
-                <input className="timer__unit-input" type="text" placeholder="00" value={minutes} onChange={(evt) => this.setState({ minutes: evt.target.value })} disabled={started} />
-                <h5 className="timer__unit-sub">Minutes</h5>
+              <div className="timer__inner">
+                <div className="timer__unit">
+                  <input className="timer__unit-input" type="text" placeholder="0" value={hours} onChange={(evt) => this.setState({ hours: evt.target.value })} disabled={started} />
+                  <h5 className="timer__unit-sub">Hours</h5>
+                </div>
+
+                <div className="timer__unit">
+                  <input className="timer__unit-input" type="text" placeholder="00" value={minutes} onChange={(evt) => this.setState({ minutes: evt.target.value })} disabled={started} />
+                  <h5 className="timer__unit-sub">Minutes</h5>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="timer-actions">
-            {!started ?
-              <div className="timer-actions__action">
-                <button className="btn btn--success" onClick={this.handleStart}>
-                  Start
-                </button>
-              </div> : null}
+            <div className="timer-actions">
+              {!started ?
+                <div className="timer-actions__action">
+                  <button className="btn btn--success" onClick={this.handleStart}>
+                    Start
+                  </button>
+                </div> : null}
 
-            {started ?
-              <div className="timer-actions__action">
-                {paused
-                  ? <button className="btn btn--default">Pause</button>
-                  : <button className="btn btn--default">Resume</button>}
-              </div> : null}
+              {started ?
+                <div className="timer-actions__action">
+                  {paused
+                    ? <button className="btn btn--default">Pause</button>
+                    : <button className="btn btn--default">Resume</button>}
+                </div> : null}
 
-            {started ?
-              <div className="timer-actions__action">
-                <button className="btn btn--danger" onClick={this.handleStop}>
-                  Stop
-                </button>
-              </div> : null}
+              {started ?
+                <div className="timer-actions__action">
+                  <button className="btn btn--danger" onClick={this.handleStop}>
+                    Stop
+                  </button>
+                </div> : null}
+            </div>
           </div>
         </div>
       </div>
@@ -91,6 +96,8 @@ export default class App extends Component {
         const remaining = this.state.remaining - 1;
 
         if ( remaining <= 0 ) {
+          this.refs.sound.play();
+
           clearInterval(this.timer);
 
           this.setState({
